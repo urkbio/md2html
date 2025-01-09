@@ -3,15 +3,24 @@ import os
 from pathlib import Path
 import sys
 import argparse
+import re
+
+def get_first_h1_title(md_content):
+    # 查找第一个一级标题
+    h1_match = re.search(r'^#\s+(.+)$', md_content, re.MULTILINE)
+    return h1_match.group(1) if h1_match else 'J'
 
 def create_html(md_content):
+    # 获取一级标题作为页面标题
+    page_title = get_first_h1_title(md_content)
+    
     # HTML 模板
     html_template = '''<!DOCTYPE html>
 <html lang="zh">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Joomaen 文档</title>
+    <title>{title}</title>
     <style>
         :root {{
             --text-color: #2c3e50;
@@ -143,8 +152,8 @@ def create_html(md_content):
         extensions=['fenced_code', 'tables', 'codehilite']
     )
     
-    # 将 HTML 内容插入模板
-    return html_template.format(content=html_content)
+    # 将 HTML 内容和标题插入模板
+    return html_template.format(title=page_title, content=html_content)
 
 def main():
     # 创建命令行参数解析器
