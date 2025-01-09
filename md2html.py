@@ -8,7 +8,7 @@ import re
 def get_first_h1_title(md_content):
     # 查找第一个一级标题
     h1_match = re.search(r'^#\s+(.+)$', md_content, re.MULTILINE)
-    return h1_match.group(1) if h1_match else 'J'
+    return h1_match.group(1) if h1_match else 'index page'
 
 def create_html(md_content):
     # 获取一级标题作为页面标题
